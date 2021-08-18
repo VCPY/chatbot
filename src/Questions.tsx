@@ -1,5 +1,6 @@
 import React from "react";
-import { loadChatData } from "./DataLoader";
+import { createUseStyles } from "react-jss";
+import { EndpointData, loadChatData, sendChatData } from "./Persistance";
 import { Question } from "./Question";
 
 export interface PossibleAnswerType {
@@ -65,8 +66,6 @@ export class QuestionList extends React.Component<{}, { questions: QuestionType[
     }
 
     handleSelection(id: number, index: number) {
-        console.log(id)
-        console.log(index)
         let previousAnswer: SelectedAnswerType = {
             question: this.getQuestionById(id)!,
             chosenAnswerIndex: index
@@ -80,6 +79,14 @@ export class QuestionList extends React.Component<{}, { questions: QuestionType[
     }
 
     render() {
+        if (!this.state.currentQuestion && this.state.previousAnswers.length != 0) {
+            let data: EndpointData[] = []
+            for (let answer of this.state.previousAnswers) {
+                data.push({ name: answer.question.name, value: answer.question.valueOptions[answer.chosenAnswerIndex].value })
+            }
+            sendChatData(data)
+
+        }
         let previousQuestionsRender = []
         for (let previousQuestion of this.state.previousAnswers) {
             previousQuestionsRender.push(<Question question={previousQuestion.question} selected={previousQuestion.chosenAnswerIndex}></Question>)
