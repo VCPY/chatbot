@@ -1,9 +1,9 @@
-import { ChatBotModule } from './ChatBot';
+import { ChatBot } from "./ChatBot";
 
 function App() {
   return (
     <div className="App">
-      <ChatBotModule.ChatBot></ChatBotModule.ChatBot>
+      <ChatBot></ChatBot>
     </div>
   );
 }
