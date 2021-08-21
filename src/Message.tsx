@@ -1,12 +1,15 @@
-import { Button } from "@material-ui/core";
+import { Button, createTheme, MuiThemeProvider } from "@material-ui/core";
 import React from "react";
 import { createUseStyles } from "react-jss";
 import { MessageType } from "./DataStructures/interfaces";
 
+
+const secondaryColor = "#90c8f3"
+
 function Styles({ children }: any): any {
   let styles = createUseStyles({
     sent: {
-      backgroundColor: "#90c8f3",
+      backgroundColor: secondaryColor,
       padding: 10,
       marginLeft: '45%',
       marginTop: 5,
@@ -31,6 +34,8 @@ function Styles({ children }: any): any {
   })
   return children(styles)
 }
+
+const mainTheme = createTheme({ palette: { primary: { main: '#2E3B55' }, secondary:{ main: "#90c8f3" }} })
 
 export class Message extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined, received?: boolean }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined, received:boolean }>{
   constructor(props: any) {
@@ -59,11 +64,11 @@ export class Message extends React.Component<{ question: MessageType, answerSele
           const styles = useStyles(this.props)
 
           let answers = this.state.message.answers.map((answer, index) => {
-            return <Button disableElevation disableRipple={true}  variant="outlined" style={{ marginRight: "1em", marginTop: "1em"}} key={index} onClick={() => {
+            return <MuiThemeProvider theme={mainTheme}><Button disableElevation disableRipple={true} color="primary" variant="outlined" style={{ marginRight: "1em", marginTop: "1em"}} key={index} onClick={() => {
               if (this.state.answerSelectedCallback) {
                 this.state.answerSelectedCallback(this.state.message.id, index)
               }
-            }}> {answer}</Button >
+            }}> {answer}</Button ></MuiThemeProvider>
           })
 
           return (
