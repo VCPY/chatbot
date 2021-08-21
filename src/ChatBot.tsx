@@ -1,7 +1,7 @@
 import { Paper } from "@material-ui/core";
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { QuestionList } from "./Questions";
+import { MessageList } from "./MessageList";
 import { ChatBotHeader } from "./UIComponents/ChatBotHeader";
 
 
@@ -36,7 +36,7 @@ export class ChatBot extends React.Component {
             <div className={styles.container}>
               <Paper className={styles.paper} elevation={3}>
                 <ChatBotHeader />
-                <QuestionList />
+                <MessageList />
               </Paper>
             </div>)
         }

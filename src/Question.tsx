@@ -2,7 +2,6 @@ import { Button } from "@material-ui/core";
 import React from "react";
 import { createUseStyles } from "react-jss";
 import { MessageType } from "./DataStructures/interfaces";
-import { QuestionType } from "./Questions";
 
 function Styles({ children }: any): any {
   let styles = createUseStyles({

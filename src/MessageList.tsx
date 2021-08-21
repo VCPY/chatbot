@@ -1,6 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { MessageType } from "./DataStructures/interfaces";
+import { MessageType, QuestionType, SelectedAnswerType } from "./DataStructures/interfaces";
 import { EndpointData, loadChatData, sendChatData } from "./Persistance";
 import { Question } from "./Question";
 
@@ -10,8 +10,8 @@ function Styles({ children }: any): any {
     container: {
       margin: "2em",
       display: "flex",
-      marginTop:"1em",
-      marginRight:"0.25em",
+      marginTop: "1em",
+      marginRight: "0.25em",
       height: "75%",
       flexFlow: "column",
       justifyContent: "bottom",
@@ -23,28 +23,7 @@ function Styles({ children }: any): any {
   return children(styles)
 }
 
-export interface PossibleAnswerType {
-  "nextId": number,
-  "value": string,
-  "text": string
-}
-
-export interface QuestionType {
-  "id": number,
-  "name": string,
-  "text": string,
-  "uiType": string,
-  "valueType": string,
-  "valueOptions": PossibleAnswerType[]
-}
-
-interface SelectedAnswerType {
-  "question": QuestionType,
-  "chosenAnswerIndex": number
-}
-
-
-export class QuestionList extends React.Component<{}, { questions: QuestionType[], currentQuestion: QuestionType | undefined, previousAnswers: SelectedAnswerType[], dataLoaded: boolean }> {
+export class MessageList extends React.Component<{}, { questions: QuestionType[], currentQuestion: QuestionType | undefined, previousAnswers: SelectedAnswerType[], dataLoaded: boolean }> {
 
   messageEnd: HTMLDivElement | null = null;
 
@@ -141,11 +120,9 @@ export class QuestionList extends React.Component<{}, { questions: QuestionType[
                   <Question question={this.questionToMessage(this.state.currentQuestion)} answerSelectedCallback={(id, index) => this.handleSelection(id, index)}></Question>
                   :
                   <Question question={{
-                    text: "Herzlichen Dank für Ihre Angaben",
-                    id: 0,
-                    answers: []
-                  }
-                  }></Question>}
+                    text: "Herzlichen Dank für Ihre Angaben", id: 0, answers: []
+                  }}></Question>
+                }
                 <div ref={(el) => this.messageEnd = el} />
               </div>
             )
