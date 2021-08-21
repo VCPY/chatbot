@@ -1,5 +1,7 @@
+import { Button } from "@material-ui/core";
 import React from "react";
 import { createUseStyles } from "react-jss";
+import { MessageType } from "./DataStructures/interfaces";
 import { QuestionType } from "./Questions";
 
 function Styles({ children }: any): any {
@@ -13,44 +15,51 @@ function Styles({ children }: any): any {
       maxWidth: '50%',
       alignSelf: 'flex-end',
       borderRadius: 20,
+    },
+    button: {
+      marginRight:"1em"
     }
   })
   return children(styles)
 }
 
-export class Question extends React.Component<{ question: QuestionType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined }, { question: QuestionType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined }>{
+export class Question extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined }>{
   constructor(props: any) {
     super(props)
     this.state = {
       selected: props.selected,
-      question: props.question,
+      message: props.question,
       answerSelectedCallback: props.answerSelectedCallback
     }
   }
 
-  componentDidUpdate(prevProps: { question: QuestionType; answerSelectedCallback?: (id: number, index: number) => void }, prevState: any, snapshot: any) {
+  componentDidUpdate(prevProps: { question: MessageType; }, prevState: any, snapshot: any) {
     if (prevProps.question !== this.props.question) {
       this.setState({
-        question: this.props.question
+        message: this.props.question
       })
     }
   }
 
   render() {
-    let answers = this.state.question.valueOptions.map((answer, index) =>
-      <button key={this.state.question.id + "_" + index} onClick={() => {
-        if (this.state.answerSelectedCallback) {
-          this.state.answerSelectedCallback(this.state.question.id, index)
-        }
-      }}> {answer.text}</button >)
+
     return (
       <Styles>{
         (useStyles: any) => {
           const styles = useStyles(this.props)
+
+          let answers = this.state.message.answers.map((answer, index) => {
+            return <Button variant="contained" style={{marginRight:"1em", marginTop:"1em"}} key={this.state.message.id + "_" + index} onClick={() => {
+              if (this.state.answerSelectedCallback) {
+                this.state.answerSelectedCallback(this.state.message.id, index)
+              }
+            }}> {answer}</Button >
+          })
+
           return (
             <p className={styles.container}>
-              <div style={{ fontSize: 16, color: "#fff" }} > {this.state.question.text}
-                <div>
+              <div style={{ fontSize: 24, color: "#fff", fontFamily: "Arial" }} > {this.state.message.text}
+                <div style={{display:"flex", justifyContent: "center"}}>
                   {
                     answers
                   }</div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
+import { MessageType } from "./DataStructures/interfaces";
 import { EndpointData, loadChatData, sendChatData } from "./Persistance";
 import { Question } from "./Question";
 
@@ -41,13 +42,14 @@ interface SelectedAnswerType {
 }
 
 
-export class QuestionList extends React.Component<{}, { questions: QuestionType[], currentQuestion: QuestionType | undefined, previousAnswers: SelectedAnswerType[] }> {
+export class QuestionList extends React.Component<{}, { questions: QuestionType[], currentQuestion: QuestionType | undefined, previousAnswers: SelectedAnswerType[], dataLoaded: boolean }> {
 
   messageEnd: HTMLDivElement | null = null;
 
   constructor(props: any) {
     super(props)
     this.state = {
+      dataLoaded: false,
       questions: [],
       currentQuestion: undefined,
       previousAnswers: []
@@ -63,7 +65,7 @@ export class QuestionList extends React.Component<{}, { questions: QuestionType[
           break;
         }
       }
-      this.setState({ 'questions': response, currentQuestion: currentQuestion })
+      this.setState({ 'questions': response, currentQuestion: currentQuestion, dataLoaded: true })
     })
   }
 
@@ -102,6 +104,18 @@ export class QuestionList extends React.Component<{}, { questions: QuestionType[
       this.messageEnd.scrollIntoView({ behavior: "smooth" });
   }
 
+  questionToMessage(question: QuestionType): MessageType {
+    let message: MessageType = {
+      text: question.text,
+      id: question.id,
+      answers: []
+    }
+    message.answers = question.valueOptions.map(el => {
+      return el.text
+    })
+    return message
+  }
+
   componentDidUpdate() {
     this.scrollToBottom()
   }
@@ -111,21 +125,35 @@ export class QuestionList extends React.Component<{}, { questions: QuestionType[
       let data: EndpointData[] = this.state.previousAnswers.map(answer => { return { "name": answer.question.name, "value": answer.question.valueOptions[answer.chosenAnswerIndex].value } })
       sendChatData(data)
     }
-    let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => <Question question={previousQuestion.question} selected={previousQuestion.chosenAnswerIndex}></Question>)
-    return (
-      <Styles>{
-        (useStyles: any): JSX.Element => {
-          const styles = useStyles(this.props)
-          return (
-            <div className={styles.container}>
-              {previousQuestionsRender}
-              {this.state.currentQuestion ? <Question question={this.state.currentQuestion} answerSelectedCallback={(id, index) => this.handleSelection(id, index)}></Question> : "Gruß"}
-              <div ref={(el) => this.messageEnd = el} />
-            </div>
-          )
+    let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => <Question question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Question>)
+
+    if (this.state.dataLoaded) {
+      return (
+        <Styles>{
+          (useStyles: any): JSX.Element => {
+            const styles = useStyles(this.props)
+            return (
+              <div className={styles.container}>
+                {previousQuestionsRender}
+                {this.state.currentQuestion ?
+                  <Question question={this.questionToMessage(this.state.currentQuestion)} answerSelectedCallback={(id, index) => this.handleSelection(id, index)}></Question>
+                  :
+                  <Question question={{
+                    text: "Herzlichen Dank für Ihre Angaben",
+                    id: 0,
+                    answers: []
+                  }
+                  }></Question>}
+                <div ref={(el) => this.messageEnd = el} />
+              </div>
+            )
+          }
         }
-      }
-      </Styles>
-    )
+        </Styles>
+      )
+    }
+    else {
+      return (<div style={{ justifyContent: "center", display: "flex" }}>Loading...</div>)
+    }
   }
 }
