@@ -107,8 +107,8 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
       sendChatData(data)
     }
     let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => {
-      return (<div><Message question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>
-        <Message received={true} question={{
+      return (<div><Message received={true} question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>
+        <Message  question={{
           text: previousQuestion.question.valueOptions[previousQuestion.chosenAnswerIndex].text,
           id: 1, 
           answers: []
@@ -127,10 +127,10 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
               <div className={styles.container}>
                 {previousQuestionsRender}
                 {this.state.currentQuestion ?
-                  <Message question={this.questionToMessage(this.state.currentQuestion)} answerSelectedCallback={(id, index) => this.handleSelection(id, index)}></Message>
+                  <Message received={true} question={this.questionToMessage(this.state.currentQuestion)} answerSelectedCallback={(id, index) => this.handleSelection(id, index)}></Message>
                   :
-                  <Message question={{
-                    text: "Herzlichen Dank für Ihre Angaben", id: 0, answers: []
+                  <Message received={true} question={{
+                    text: "Herzlichen Dank für Ihre Angaben", id: -1, answers: []
                   }}></Message>
                 }
                 <div ref={(el) => this.messageEnd = el} />

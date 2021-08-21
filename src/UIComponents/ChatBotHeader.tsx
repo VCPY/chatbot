@@ -5,7 +5,7 @@ export class ChatBotHeader extends React.Component{
 
 
     render(){
-        return(<AppBar position="static">
+        return(<AppBar style={{ background: '#2E3B55' }} position="static">
         <Toolbar>
           <Typography variant="h6" >
             ChatBot

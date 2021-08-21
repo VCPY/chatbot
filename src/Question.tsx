@@ -5,8 +5,8 @@ import { MessageType } from "./DataStructures/interfaces";
 
 function Styles({ children }: any): any {
   let styles = createUseStyles({
-    received: {
-      backgroundColor: "#0078fe",
+    sent: {
+      backgroundColor: "#90c8f3 ",
       padding: 10,
       marginLeft: '45%',
       marginTop: 5,
@@ -15,7 +15,7 @@ function Styles({ children }: any): any {
       alignSelf: 'flex-end',
       borderRadius: 20,
     },
-    sent: {
+    received: {
       backgroundColor: "#dedede",
       padding: 10,
       marginTop: 5,
@@ -69,7 +69,7 @@ export class Message extends React.Component<{ question: MessageType, answerSele
           return (
             <div>
               <p className={this.state.received? styles.received: styles.sent}>
-                <div style={{ fontSize: 24, color: "#fff", fontFamily: "Arial" }} > {this.state.message.text}
+                <div style={{ fontSize: 24, color: "#000", fontFamily: "Arial" }} > {this.state.message.text}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     {
                       answers
