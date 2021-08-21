@@ -107,7 +107,7 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
       sendChatData(data)
     }
     let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => {
-      return (<div><Message received={true} question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>
+      return (<div><Message received={true} disableButtons={true} question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>
         <Message question={{
           text: previousQuestion.question.valueOptions[previousQuestion.chosenAnswerIndex].text,
           id: previousQuestion.question.id + 0.5,

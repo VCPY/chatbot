@@ -37,14 +37,15 @@ function Styles({ children }: any): any {
 
 const mainTheme = createTheme({ palette: { primary: { main: '#2E3B55' }, secondary:{ main: "#90c8f3" }} })
 
-export class Message extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined, received?: boolean }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined, received:boolean }>{
+export class Message extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined, received?: boolean, disableButtons?: boolean }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined, received:boolean, disableButtons?: boolean }>{
   constructor(props: any) {
     super(props)
     this.state = {
       received: props.received,
       selected: props.selected,
       message: props.question,
-      answerSelectedCallback: props.answerSelectedCallback
+      answerSelectedCallback: props.answerSelectedCallback,
+      disableButtons: props.disableButtons
     }
   }
 
@@ -64,7 +65,7 @@ export class Message extends React.Component<{ question: MessageType, answerSele
           const styles = useStyles(this.props)
 
           let answers = this.state.message.answers.map((answer, index) => {
-            return <MuiThemeProvider theme={mainTheme}><Button disableElevation disableRipple={true} color="primary" variant="outlined" style={{ marginRight: "1em", marginTop: "1em"}} key={index} onClick={() => {
+            return <MuiThemeProvider theme={mainTheme}><Button disabled = {this.state.disableButtons} disableElevation disableRipple={true} color="primary" variant="outlined" style={{ marginRight: "1em", marginTop: "1em"}} key={index} onClick={() => {
               if (this.state.answerSelectedCallback) {
                 this.state.answerSelectedCallback(this.state.message.id, index)
               }
