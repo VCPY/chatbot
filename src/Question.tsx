@@ -5,7 +5,7 @@ import { MessageType } from "./DataStructures/interfaces";
 
 function Styles({ children }: any): any {
   let styles = createUseStyles({
-    container: {
+    received: {
       backgroundColor: "#0078fe",
       padding: 10,
       marginLeft: '45%',
@@ -15,17 +15,28 @@ function Styles({ children }: any): any {
       alignSelf: 'flex-end',
       borderRadius: 20,
     },
+    sent: {
+      backgroundColor: "#dedede",
+      padding: 10,
+      marginTop: 5,
+      marginLeft: "5%",
+      maxWidth: '50%',
+      alignSelf: 'flex-start',
+      borderRadius: 20,
+    }
+    ,
     button: {
-      marginRight:"1em"
+      marginRight: "1em"
     }
   })
   return children(styles)
 }
 
-export class Message extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined }>{
+export class Message extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined, received?: boolean }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined, received:boolean }>{
   constructor(props: any) {
     super(props)
     this.state = {
+      received: props.received,
       selected: props.selected,
       message: props.question,
       answerSelectedCallback: props.answerSelectedCallback
@@ -48,7 +59,7 @@ export class Message extends React.Component<{ question: MessageType, answerSele
           const styles = useStyles(this.props)
 
           let answers = this.state.message.answers.map((answer, index) => {
-            return <Button variant="contained" style={{marginRight:"1em", marginTop:"1em"}} key={this.state.message.id + "_" + index} onClick={() => {
+            return <Button variant="contained" style={{ marginRight: "1em", marginTop: "1em" }} key={index} onClick={() => {
               if (this.state.answerSelectedCallback) {
                 this.state.answerSelectedCallback(this.state.message.id, index)
               }
@@ -56,14 +67,16 @@ export class Message extends React.Component<{ question: MessageType, answerSele
           })
 
           return (
-            <p className={styles.container}>
-              <div style={{ fontSize: 24, color: "#fff", fontFamily: "Arial" }} > {this.state.message.text}
-                <div style={{display:"flex", justifyContent: "center"}}>
-                  {
-                    answers
-                  }</div>
-              </div>
-            </p>
+            <div>
+              <p className={this.state.received? styles.received: styles.sent}>
+                <div style={{ fontSize: 24, color: "#fff", fontFamily: "Arial" }} > {this.state.message.text}
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    {
+                      answers
+                    }</div>
+                </div>
+              </p>
+            </div>
           )
         }
       }

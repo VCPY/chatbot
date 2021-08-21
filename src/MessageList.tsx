@@ -106,7 +106,17 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
       let data: EndpointData[] = this.state.previousAnswers.map(answer => { return { "name": answer.question.name, "value": answer.question.valueOptions[answer.chosenAnswerIndex].value } })
       sendChatData(data)
     }
-    let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => <Message question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>)
+    let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => {
+      return (<div><Message question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>
+        <Message received={true} question={{
+          text: previousQuestion.question.valueOptions[previousQuestion.chosenAnswerIndex].text,
+          id: 1, 
+          answers: []
+        }}></Message>
+      </div>
+      )
+    }
+    )
 
     if (this.state.dataLoaded) {
       return (
