@@ -14,8 +14,8 @@ function Styles({ children }: any): any {
       height: '100vh',
     },
     paper: {
-      width: "50%",
-      height: "50%"
+      width: "50em",
+      height: "25em",
     }
   })
   return children(styles)

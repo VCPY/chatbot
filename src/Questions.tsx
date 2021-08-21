@@ -10,7 +10,9 @@ function Styles({ children }: any): any {
     container: {
       margin: "2em",
       display: "flex",
-      height: "70%",
+      marginTop:"1em",
+      marginRight:"0.25em",
+      height: "75%",
       flexFlow: "column",
       justifyContent: "bottom",
       alignItems: "bottom",
