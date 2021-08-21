@@ -22,7 +22,7 @@ function Styles({ children }: any): any {
   return children(styles)
 }
 
-export class Question extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined }>{
+export class Message extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined }>{
   constructor(props: any) {
     super(props)
     this.state = {

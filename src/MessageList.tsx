@@ -2,7 +2,7 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import { MessageType, QuestionType, SelectedAnswerType } from "./DataStructures/interfaces";
 import { EndpointData, loadChatData, sendChatData } from "./Persistance";
-import { Question } from "./Question";
+import { Message } from "./Question";
 
 
 function Styles({ children }: any): any {
@@ -106,7 +106,7 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
       let data: EndpointData[] = this.state.previousAnswers.map(answer => { return { "name": answer.question.name, "value": answer.question.valueOptions[answer.chosenAnswerIndex].value } })
       sendChatData(data)
     }
-    let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => <Question question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Question>)
+    let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => <Message question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>)
 
     if (this.state.dataLoaded) {
       return (
@@ -117,11 +117,11 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
               <div className={styles.container}>
                 {previousQuestionsRender}
                 {this.state.currentQuestion ?
-                  <Question question={this.questionToMessage(this.state.currentQuestion)} answerSelectedCallback={(id, index) => this.handleSelection(id, index)}></Question>
+                  <Message question={this.questionToMessage(this.state.currentQuestion)} answerSelectedCallback={(id, index) => this.handleSelection(id, index)}></Message>
                   :
-                  <Question question={{
+                  <Message question={{
                     text: "Herzlichen Dank für Ihre Angaben", id: 0, answers: []
-                  }}></Question>
+                  }}></Message>
                 }
                 <div ref={(el) => this.messageEnd = el} />
               </div>
