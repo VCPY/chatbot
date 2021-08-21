@@ -2,7 +2,7 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import { MessageType, QuestionType, SelectedAnswerType } from "./DataStructures/interfaces";
 import { EndpointData, loadChatData, sendChatData } from "./Persistance";
-import { Message } from "./Question";
+import { Message } from "./Message";
 
 
 function Styles({ children }: any): any {
@@ -12,7 +12,7 @@ function Styles({ children }: any): any {
       display: "flex",
       marginTop: "1em",
       marginRight: "0.25em",
-      height: "75%",
+      height: "87%",
       flexFlow: "column",
       justifyContent: "bottom",
       alignItems: "bottom",
@@ -108,9 +108,9 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
     }
     let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => {
       return (<div><Message received={true} question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>
-        <Message  question={{
+        <Message question={{
           text: previousQuestion.question.valueOptions[previousQuestion.chosenAnswerIndex].text,
-          id: 1, 
+          id: previousQuestion.question.id + 0.5,
           answers: []
         }}></Message>
       </div>

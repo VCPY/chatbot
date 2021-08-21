@@ -6,7 +6,7 @@ import { MessageType } from "./DataStructures/interfaces";
 function Styles({ children }: any): any {
   let styles = createUseStyles({
     sent: {
-      backgroundColor: "#90c8f3 ",
+      backgroundColor: "#90c8f3",
       padding: 10,
       marginLeft: '45%',
       marginTop: 5,
@@ -16,7 +16,7 @@ function Styles({ children }: any): any {
       borderRadius: 20,
     },
     received: {
-      backgroundColor: "#dedede",
+      backgroundColor: "#f5f5f5",
       padding: 10,
       marginTop: 5,
       marginLeft: "5%",
@@ -59,7 +59,7 @@ export class Message extends React.Component<{ question: MessageType, answerSele
           const styles = useStyles(this.props)
 
           let answers = this.state.message.answers.map((answer, index) => {
-            return <Button variant="contained" style={{ marginRight: "1em", marginTop: "1em" }} key={index} onClick={() => {
+            return <Button disableElevation disableRipple={true}  variant="outlined" style={{ marginRight: "1em", marginTop: "1em"}} key={index} onClick={() => {
               if (this.state.answerSelectedCallback) {
                 this.state.answerSelectedCallback(this.state.message.id, index)
               }
@@ -68,14 +68,14 @@ export class Message extends React.Component<{ question: MessageType, answerSele
 
           return (
             <div>
-              <p className={this.state.received? styles.received: styles.sent}>
+              <div className={this.state.received? styles.received: styles.sent}>
                 <div style={{ fontSize: 24, color: "#000", fontFamily: "Arial" }} > {this.state.message.text}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     {
                       answers
                     }</div>
                 </div>
-              </p>
+              </div>
             </div>
           )
         }
