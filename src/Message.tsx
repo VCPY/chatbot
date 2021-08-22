@@ -4,6 +4,7 @@ import { createUseStyles } from "react-jss";
 import { MessageType } from "./DataStructures/Interfaces";
 
 
+const primaryColor = "#2E3B55"
 const secondaryColor = "#90c8f3"
 
 function Styles({ children }: any): any {
@@ -27,17 +28,13 @@ function Styles({ children }: any): any {
       alignSelf: 'flex-start',
       borderRadius: 20,
     }
-    ,
-    button: {
-      marginRight: "1em"
-    }
   })
   return children(styles)
 }
 
-const mainTheme = createTheme({ palette: { primary: { main: '#2E3B55' }, secondary:{ main: secondaryColor }} })
+const mainTheme = createTheme({ palette: { primary: { main: primaryColor }, secondary: { main: secondaryColor } } })
 
-export class Message extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined, received?: boolean, disableButtons?: boolean }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined, received:boolean, disableButtons?: boolean }>{
+export class Message extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined, received?: boolean, disableButtons?: boolean }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined, received: boolean, disableButtons?: boolean }>{
   constructor(props: any) {
     super(props)
     this.state = {
@@ -65,7 +62,7 @@ export class Message extends React.Component<{ question: MessageType, answerSele
           const styles = useStyles(this.props)
 
           let answers = this.state.message.answers.map((answer, index) => {
-            return <MuiThemeProvider theme={mainTheme}><Button disabled = {this.state.disableButtons} disableElevation disableRipple={true} color="primary" variant="outlined" style={{ marginRight: "1em", marginTop: "1em"}} key={index} onClick={() => {
+            return <MuiThemeProvider key={"MUI" + this.state.message.id + "" + index} theme={mainTheme}><Button disabled={this.state.disableButtons} key={this.state.message.id + "" + index} disableElevation disableRipple={true} color="primary" variant="outlined" style={{ marginRight: "1em", marginTop: "1em" }} onClick={() => {
               if (this.state.answerSelectedCallback) {
                 this.state.answerSelectedCallback(this.state.message.id, index)
               }
@@ -74,12 +71,11 @@ export class Message extends React.Component<{ question: MessageType, answerSele
 
           return (
             <div>
-              <div className={this.state.received? styles.received: styles.sent}>
+              <div className={this.state.received ? styles.received : styles.sent}>
                 <div style={{ fontSize: 24, color: "#000", fontFamily: "Arial" }} > {this.state.message.text}
                   <div style={{ display: "flex", justifyContent: "center" }}>
-                    {
-                      answers
-                    }</div>
+                    {answers}
+                  </div>
                 </div>
               </div>
             </div>
