@@ -1,8 +1,8 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { MessageType, QuestionType, SelectedAnswerType } from "./DataStructures/interfaces";
 import { EndpointData, loadChatData, sendChatData } from "./Persistance";
 import { Message } from "./Message";
+import { MessageType, QuestionType, SelectedAnswerType } from "./DataStructures/Interfaces";
 
 
 function Styles({ children }: any): any {
@@ -39,19 +39,13 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
 
   componentDidMount() {
     loadChatData((response: any[]) => {
-      let currentQuestion;
       for (let question of response) {
         if (question.id === 100) {
-          currentQuestion = question
+          this.setState({ 'questions': response, currentQuestion: question, dataLoaded: true })
           break;
         }
       }
-      this.setState({ 'questions': response, currentQuestion: currentQuestion, dataLoaded: true })
     })
-  }
-
-  getCurrentId(): number | undefined {
-    return this.state.currentQuestion?.id
   }
 
   getQuestionById(id: number): QuestionType | undefined {
@@ -91,9 +85,7 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
       id: question.id,
       answers: []
     }
-    message.answers = question.valueOptions.map(el => {
-      return el.text
-    })
+    message.answers = question.valueOptions.map(el => el.text)
     return message
   }
 
@@ -102,7 +94,7 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
   }
 
   render() {
-    if (!this.state.currentQuestion && this.state.previousAnswers.length != 0) {
+    if (!this.state.currentQuestion && this.state.previousAnswers.length !== 0) {
       let data: EndpointData[] = this.state.previousAnswers.map(answer => { return { "name": answer.question.name, "value": answer.question.valueOptions[answer.chosenAnswerIndex].value } })
       sendChatData(data)
     }
@@ -115,8 +107,7 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
         }}></Message>
       </div>
       )
-    }
-    )
+    })
 
     if (this.state.dataLoaded) {
       return (
@@ -142,7 +133,7 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
       )
     }
     else {
-      return (<div style={{ justifyContent: "center", display: "flex" }}>Loading...</div>)
+      return (<div>Loading...</div>)
     }
   }
 }

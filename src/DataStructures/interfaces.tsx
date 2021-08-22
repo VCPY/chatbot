@@ -1,7 +1,7 @@
 export interface MessageType {
-    text: string,
-    id: number,
-    answers: string[]
+    "text": string,
+    "id": number,
+    "answers": string[]
 }
 
 export interface PossibleAnswerType {

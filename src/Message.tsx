@@ -1,7 +1,7 @@
 import { Button, createTheme, MuiThemeProvider } from "@material-ui/core";
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { MessageType } from "./DataStructures/interfaces";
+import { MessageType } from "./DataStructures/Interfaces";
 
 
 const secondaryColor = "#90c8f3"
@@ -12,7 +12,7 @@ function Styles({ children }: any): any {
       backgroundColor: secondaryColor,
       padding: 10,
       marginLeft: '45%',
-      marginTop: 5,
+      marginTop: 15,
       marginRight: "5%",
       maxWidth: '50%',
       alignSelf: 'flex-end',
@@ -21,7 +21,7 @@ function Styles({ children }: any): any {
     received: {
       backgroundColor: "#f5f5f5",
       padding: 10,
-      marginTop: 5,
+      marginTop: 15,
       marginLeft: "5%",
       maxWidth: '50%',
       alignSelf: 'flex-start',
@@ -35,7 +35,7 @@ function Styles({ children }: any): any {
   return children(styles)
 }
 
-const mainTheme = createTheme({ palette: { primary: { main: '#2E3B55' }, secondary:{ main: "#90c8f3" }} })
+const mainTheme = createTheme({ palette: { primary: { main: '#2E3B55' }, secondary:{ main: secondaryColor }} })
 
 export class Message extends React.Component<{ question: MessageType, answerSelectedCallback?: (id: number, index: number) => void, selected?: number | undefined, received?: boolean, disableButtons?: boolean }, { message: MessageType, answerSelectedCallback: (id: number, index: number) => void, selected?: number | undefined, received:boolean, disableButtons?: boolean }>{
   constructor(props: any) {

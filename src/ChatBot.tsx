@@ -23,10 +23,6 @@ function Styles({ children }: any): any {
 
 export class ChatBot extends React.Component {
 
-  constructor(props: any) {
-    super(props)
-  }
-
   render() {
     return (<Styles>
       {
