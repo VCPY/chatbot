@@ -3,7 +3,6 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import { MessageType } from "./DataStructures/Interfaces";
 
-
 const primaryColor = "#2E3B55"
 const secondaryColor = "#90c8f3"
 
@@ -27,6 +26,15 @@ function Styles({ children }: any): any {
       maxWidth: '50%',
       alignSelf: 'flex-start',
       borderRadius: 20,
+    },
+    messageText:{
+      fontSize: 24, 
+      color: "#000", 
+      fontFamily: "Arial" 
+    },
+    messageAnswers:{
+      display: "flex", 
+      justifyContent: "center" 
     }
   })
   return children(styles)
@@ -72,8 +80,8 @@ export class Message extends React.Component<{ question: MessageType, answerSele
           return (
             <div>
               <div className={this.state.received ? styles.received : styles.sent}>
-                <div style={{ fontSize: 24, color: "#000", fontFamily: "Arial" }} > {this.state.message.text}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
+                <div className={styles.messageText} > {this.state.message.text}
+                  <div className={styles.messageAnswers}>
                     {answers}
                   </div>
                 </div>
