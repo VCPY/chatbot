@@ -27,14 +27,14 @@ function Styles({ children }: any): any {
       alignSelf: 'flex-start',
       borderRadius: 20,
     },
-    messageText:{
-      fontSize: 24, 
-      color: "#000", 
-      fontFamily: "Arial" 
+    messageText: {
+      fontSize: 24,
+      color: "#000",
+      fontFamily: "Arial"
     },
-    messageAnswers:{
-      display: "flex", 
-      justifyContent: "center" 
+    messageAnswers: {
+      display: "flex",
+      justifyContent: "center"
     }
   })
   return children(styles)
@@ -70,11 +70,17 @@ export class Message extends React.Component<{ question: MessageType, answerSele
           const styles = useStyles(this.props)
 
           let answers = this.state.message.answers.map((answer, index) => {
-            return <MuiThemeProvider key={"MUI" + this.state.message.id + "" + index} theme={mainTheme}><Button disabled={this.state.disableButtons} key={this.state.message.id + "" + index} disableElevation disableRipple={true} color="primary" variant="outlined" style={{ marginRight: "1em", marginTop: "1em" }} onClick={() => {
-              if (this.state.answerSelectedCallback) {
-                this.state.answerSelectedCallback(this.state.message.id, index)
-              }
-            }}> {answer}</Button ></MuiThemeProvider>
+            return (
+              <MuiThemeProvider key={"MUI" + this.state.message.id + "" + index} theme={mainTheme}>
+                <Button disabled={this.state.disableButtons} key={this.state.message.id + "" + index} disableElevation disableRipple={true} color="primary" variant="outlined" style={{ marginRight: "1em", marginTop: "1em" }}
+                  onClick={() => {
+                    if (this.state.answerSelectedCallback) {
+                      this.state.answerSelectedCallback(this.state.message.id, index)
+                    }
+                  }}>
+                  {answer}
+                </Button>
+              </MuiThemeProvider>)
           })
 
           return (

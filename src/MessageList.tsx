@@ -95,19 +95,22 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
 
   render() {
     if (!this.state.currentQuestion && this.state.previousAnswers.length !== 0) {
+      // Sends the received answers to the endpoint
       let data: EndpointData[] = this.state.previousAnswers.map(answer => { return { "name": answer.question.name, "value": answer.question.valueOptions[answer.chosenAnswerIndex].value } })
       sendChatData(data)
     }
-    let previousQuestionsRender = this.state.previousAnswers.map(previousQuestion => {
-      return (<div key={previousQuestion.question.text + "div"}>
-        <Message received={true} disableButtons={true} question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>
-        <Message
-          question={{
-            text: previousQuestion.question.valueOptions[previousQuestion.chosenAnswerIndex].text,
-            id: previousQuestion.question.id + 0.5,
-            answers: []
-          }}></Message>
-      </div>
+    let previousQuestions = this.state.previousAnswers.map(previousQuestion => {
+      return (
+        <div key={previousQuestion.question.text + "div"}>
+          <Message received={true} disableButtons={true} question={this.questionToMessage(previousQuestion.question)} selected={previousQuestion.chosenAnswerIndex}></Message>
+          <Message
+            question={{
+              text: previousQuestion.question.valueOptions[previousQuestion.chosenAnswerIndex].text,
+              id: previousQuestion.question.id + 0.5,
+              answers: []
+            }}>
+          </Message>
+        </div>
       )
     })
 
@@ -118,7 +121,7 @@ export class MessageList extends React.Component<{}, { questions: QuestionType[]
             const styles = useStyles(this.props)
             return (
               <div className={styles.container}>
-                {previousQuestionsRender}
+                {previousQuestions}
                 {this.state.currentQuestion ?
                   <Message received={true} question={this.questionToMessage(this.state.currentQuestion)} answerSelectedCallback={(id, index) => this.handleSelection(id, index)}></Message>
                   :
